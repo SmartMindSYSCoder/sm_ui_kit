@@ -4,85 +4,84 @@ class AppSnackBar {
   AppSnackBar._();
 
   static void showCustomSnackbar({
-  required BuildContext context,
-  required String title,
-  required String message,
-  required Color backgroundColor,
-  TextStyle? titleStyle,
-  TextStyle? messageStyle,
-  Widget? icon,
-  EdgeInsets? padding,
-  EdgeInsets? margin,
-  double borderRadius = 12,
-  Color? borderColor,
-  double borderWidth = 0,
-  DismissDirection? dismissDirection,
-}) {
-  // 1. Get screen dimensions to calculate top position
-  final double screenHeight = MediaQuery.of(context).size.height;
-  final double statusBarHeight = MediaQuery.of(context).padding.top;
+    required BuildContext context,
+    required String title,
+    required String message,
+    required Color backgroundColor,
+    TextStyle? titleStyle,
+    TextStyle? messageStyle,
+    Widget? icon,
+    EdgeInsets? padding,
+    EdgeInsets? margin,
+    double borderRadius = 12,
+    Color? borderColor,
+    double borderWidth = 0,
+    DismissDirection? dismissDirection,
+  }) {
+    // 1. Get screen metrics
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
 
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      
-      // 2. THIS IS THE KEY: Calculate margin to push it to the top
-      margin: margin ?? EdgeInsets.only(
-        top: statusBarHeight + 10, 
-        left: 16, 
-        right: 16, 
-        // Push from bottom = Total Height - Status Bar - Approximate Snackbar Height
-        bottom: screenHeight - statusBarHeight - 120, 
-      ),
-      
-      dismissDirection: dismissDirection ?? DismissDirection.up,
-      padding: EdgeInsets.zero,
-      content: Container(
-        padding: padding ?? const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(borderRadius),
-          border: borderColor != null
-              ? Border.all(color: borderColor, width: borderWidth)
-              : null,
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        
+        // 2. This pushes the snackbar from the bottom to the very top
+        margin: margin ?? EdgeInsets.only(
+          bottom: screenHeight - statusBarHeight - 110, // Adjust 110 based on content height
+          left: 16,
+          right: 16,
+          top: statusBarHeight, // Adds spacing from the very top notch
         ),
-        child: Row(
-          children: [
-            if (icon != null) ...[icon, const SizedBox(width: 12)],
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: titleStyle ?? const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    message,
-                    style: messageStyle ?? const TextStyle(color: Colors.white70),
-                  ),
-                ],
+        
+        dismissDirection: dismissDirection ?? DismissDirection.up,
+        padding: EdgeInsets.zero,
+        content: Container(
+          padding: padding ?? const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: borderColor != null
+                ? Border.all(color: borderColor, width: borderWidth)
+                : null,
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(0, 4),
               ),
-            ),
-          ],
+            ],
+          ),
+          child: Row(
+            children: [
+              if (icon != null) ...[icon, const SizedBox(width: 12)],
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: titleStyle ?? const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      message,
+                      style: messageStyle ?? const TextStyle(color: Colors.white70),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   static void showSuccessSnackbar({
     required BuildContext context,
