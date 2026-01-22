@@ -78,11 +78,13 @@ class AppSnackBar {
     TextStyle? titleStyle,
     TextStyle? messageStyle,
     Color? backgroundColor,
+    DismissDirection? dismissDirection,
   }) {
     final theme = Theme.of(context);
 
     showCustomSnackbar(
       context: context,
+      dismissDirection: dismissDirection ?? DismissDirection.up,
       title: title ?? "Success",
       message: message,
       titleStyle: titleStyle,
@@ -104,6 +106,7 @@ class AppSnackBar {
     TextStyle? titleStyle,
     TextStyle? messageStyle,
     Color? backgroundColor,
+    DismissDirection? dismissDirection,
   }) {
     final theme = Theme.of(context);
 
@@ -113,6 +116,7 @@ class AppSnackBar {
       message: message,
       titleStyle: titleStyle,
       messageStyle: messageStyle,
+      dismissDirection: dismissDirection ?? DismissDirection.up,
       // Fallback to Error color if no background provided
       backgroundColor: backgroundColor ?? theme.colorScheme.error,
       icon: const Icon(Icons.warning_amber_rounded, color: Colors.white),
