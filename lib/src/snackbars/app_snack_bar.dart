@@ -18,9 +18,12 @@ class AppSnackBar {
     double borderWidth = 0,
     DismissDirection? dismissDirection,
   }) {
-    // 1. Get screen metrics
+    // 1. الحصول على أبعاد الشاشة
     final double screenHeight = MediaQuery.of(context).size.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
+
+    // 2. تحديد الإزاحة المطلوبة من الأعلى (مثلاً 100 بكسل)
+    const double topOffset = 100.0;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -28,15 +31,15 @@ class AppSnackBar {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         
-        // 2. This pushes the snackbar from the bottom to the very top
+        // 3. تعديل الهامش السفلي ليدفع الـ SnackBar للمكان المطلوب في الأعلى
         margin: margin ?? EdgeInsets.only(
-          bottom: screenHeight - statusBarHeight - 110, // Adjust 110 based on content height
+          bottom: screenHeight - statusBarHeight - topOffset - 80, // 80 هو الارتفاع التقريبي للـ SnackBar نفسه
           left: 16,
           right: 16,
-          top: statusBarHeight, // Adds spacing from the very top notch
         ),
         
         dismissDirection: dismissDirection ?? DismissDirection.up,
+        duration: const Duration(seconds: 3),
         padding: EdgeInsets.zero,
         content: Container(
           padding: padding ?? const EdgeInsets.all(16),
@@ -46,11 +49,11 @@ class AppSnackBar {
             border: borderColor != null
                 ? Border.all(color: borderColor, width: borderWidth)
                 : null,
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Colors.black26,
+                color: Colors.black.withOpacity(0.2),
                 blurRadius: 10,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
