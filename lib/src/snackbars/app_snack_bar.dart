@@ -16,6 +16,7 @@ class AppSnackBar {
     double borderRadius = 12,
     Color? borderColor,
     double borderWidth = 0,
+    DismissDirection? dismissDirection,
   }) {
     final theme = Theme.of(context);
 
@@ -26,6 +27,7 @@ class AppSnackBar {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         margin: margin ?? const EdgeInsets.all(16),
+        dismissDirection: dismissDirection ?? DismissDirection.up,
         padding: EdgeInsets.zero, // Padding handled by the Container
         content: Container(
           padding: padding ?? const EdgeInsets.all(16),
@@ -85,6 +87,7 @@ class AppSnackBar {
       message: message,
       titleStyle: titleStyle,
       messageStyle: messageStyle,
+
       // Fallback to Primary color if no background provided
       backgroundColor: backgroundColor ?? theme.colorScheme.primary,
       icon: const Icon(Icons.check_circle, color: Colors.white),
